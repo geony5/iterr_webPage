@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITERR | 기술로 일상을 선명하게</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-light: #EBF4FF;
+            --text-main: #1A1F27;
+            --text-sub: #4E5968;
+            --text-gray: #8B95A1;
+            --bg-white: #FFFFFF;
+            --bg-soft: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--text-main);
+            background-color: var(--bg-white);
+            line-height: 1.5;
+            word-break: keep-all;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .logo img {
+            height: 28px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .logo img:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(0, 102, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 10% 80%, rgba(0, 102, 255, 0.03) 0%, transparent 40%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 4.8rem);
+            font-weight: 800;
+            margin-bottom: 28px;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+        }
+
+        .gradient-text {
+            background: linear-gradient(120deg, #0066FF 0%, #60A5FA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            color: var(--text-sub);
+            margin-bottom: 56px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 160px 8%;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 72px;
+            letter-spacing: -0.03em;
+        }
+
+        /* Service Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+        }
+
+        .card {
+            background: var(--bg-soft);
+            border-radius: 36px;
+            padding: 56px 48px;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-16px);
+            background: var(--bg-white);
+            box-shadow: 0 32px 64px -16px rgba(0, 102, 255, 0.12);
+            border-color: rgba(0, 102, 255, 0.08);
+        }
+
+        .service-icon {
+            height: 64px;
+            margin-bottom: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
+        }
+
+        .icon-square {
+            width: 64px;
+            border-radius: 18px;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .card p {
+            color: var(--text-sub);
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 20px 40px;
+            background: var(--text-main);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            background: #000;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .btn-blue {
+            background: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.2);
+        }
+
+        .btn-blue:hover {
+            background: #005AEB;
+            box-shadow: 0 12px 28px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+            background: linear-gradient(to bottom, #fff, var(--bg-soft));
+            border-radius: 100px 100px 0 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-soft);
+            padding: 100px 8% 60px;
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 32px;
+            letter-spacing: -0.02em;
+        }
+
+        .footer-info {
+            line-height: 2;
+            color: var(--text-gray);
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 100px 6%; }
+            .hero h1 { font-size: 2.8rem; }
+            .card { padding: 40px 32px; }
+            #contact { border-radius: 60px 60px 0 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="window.scrollTo(0,0)">
+            <img src="이미지 파일/ITERR투명배경.png" alt="ITERR 로고">
+        </div>
+        <div class="menu">
+            <a href="#contact" class="btn" style="padding: 12px 24px; font-size: 0.95rem; border-radius: 12px;">문의하기</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1 class="fade-in">기술로 일상을<br><span class="gradient-text">선명하게, ITERR</span></h1>
+        <p class="fade-in">본질에 집중하여 더 나은 소프트웨어 경험을 설계합니다.</p>
+        <a href="#services" class="btn btn-blue fade-in">진행 중인 프로젝트</a>
+    </div>
+
+    <section id="services">
+        <h2 class="section-title fade-in">우리가 집중하는 문제들</h2>
+        <div class="grid">
+            <div class="card fade-in" onclick="location.href='/Users/geony-com/Desktop/서비스 개발/iterr homepage/홈페이지 파일/뭉게뭉게 독서록 홈페이지/MoongBook_HomePage.html'" style="cursor: pointer;">
+                <img src="이미지 파일/1024 앱아이콘 ver2.png" alt="뭉게뭉게 독서록" class="service-icon icon-square"> 
+                <div>
+                    <h3>뭉게뭉게 독서록</h3>
+                    <p>책 속의 귀한 아이디어를 휘발시키지 마세요. 가장 심플하게 나만의 가치관 성장을 기록합니다.</p>
+                </div>
+            </div>
+            <div class="card fade-in">
+                <img src="이미지 파일/프롬슨 무배경.png" alt="프롬슨 로고" class="service-icon" style="height: 50px; margin-bottom: 54px; width: auto;">
+                <div>
+                    <h3>Promtson. (서비스 출시 예정)</h3>
+                    <p>AI를 다루는 기술이 경쟁력이 되는 시대. 구조화된 프롬프트로 최적의 결과값을 제안합니다.</p>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <img src="이미지 파일/뽀모타임 로고.png" alt="뽀모타임 로고" class="service-icon icon-square">
+                <div>
+                    <h3>뽀모타임 (앱 출시 예정)</h3>
+                    <p>심미적인 즐거움이 주는 높은 집중력. 세상에서 가장 심플하고 아름다운 디지털 타이머로 몰입을 관리하세요.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title fade-in">ITERR와 함께 성장하세요</h2>
+        <p class="fade-in" style="margin-bottom: 48px; font-size: 1.25rem; color: var(--text-sub); max-width: 600px; margin-left: auto; margin-right: auto;">
+            비즈니스 제휴부터 간단한 문의까지. 모두 환영합니다.
+        </p>
+        <a href="mailto:ggeeooon@gmail.com" class="btn fade-in">이메일로 문의하기</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">ITERR</div>
+            <div class="footer-info">
+                상호명: ITERR | 대표: 박건영 <br>
+                사업자등록번호: 등록 예정 | 통신판매업신고: 등록 예정 <br>
+                주소: 경기도 평택시 (상세 주소 입력 예정) <br>
+                이메일: ggeeooon@gmail.com <br><br>
+                <span style="opacity: 0.7;">© 2026 ITERR. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -80px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
