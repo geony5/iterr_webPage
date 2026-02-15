@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITERR 통합 정책</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root { --color-blue: #3B82F6; --bg-grey: #F9FAFB; --font: 'Pretendard', sans-serif; }
+        body { font-family: var(--font); background: var(--bg-grey); margin: 0; line-height: 1.6; color: #333; }
+        header { background: white; height: 60px; border-bottom: 1px solid #eee; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-inner { width: 100%; max-width: 880px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; color: #333; text-decoration: none; font-size: 16px; }
+        .close-btn { font-size: 14px; text-decoration: none; color: #666; font-weight: 600; cursor: pointer; }
+        .doc-container { max-width: 880px; margin: 40px auto; padding: 50px; background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); min-height: 800px; }
+        .select-wrapper { margin-bottom: 50px; position: sticky; top: 80px; z-index: 90; background: white; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .policy-select {
+            width: 100%; padding: 14px 16px; font-size: 16px; font-weight: 600; color: #333;
+            border: 2px solid #e5e8eb; border-radius: 12px; appearance: none; -webkit-appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 16px center;
+            background-color: white; cursor: pointer; transition: all 0.2s;
+        }
+        .policy-select:hover { border-color: #b0b8c1; }
+        .policy-select:focus { outline: none; border-color: var(--color-blue); }
+        .policy-content { display: none; animation: fadeIn 0.3s ease; }
+        .policy-content.active { display: block; }
+        h1 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: #191f28; }
+        .badge { display: inline-block; background: #E8F3FF; color: var(--color-blue); font-size: 13px; font-weight: 700; padding: 6px 10px; border-radius: 6px; margin-bottom: 40px; }
+        h2 { font-size: 20px; color: #191f28; margin-top: 40px; margin-bottom: 16px; font-weight: 700; border-bottom: 2px solid #f2f4f6; padding-bottom: 10px; }
+        p { font-size: 15px; color: #4e5968; margin-bottom: 12px; line-height: 1.7; text-align: justify; }
+        ul, ol { padding-left: 22px; margin-bottom: 20px; color: #4e5968; }
+        li { margin-bottom: 8px; font-size: 15px; line-height: 1.7; }
+        strong { color: #333; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+        th, td { border: 1px solid #e8ebef; padding: 10px; text-align: left; font-size: 14px; }
+        th { background: #f8fafc; }
+        .meta-note { margin-top: 28px; padding: 16px; border-radius: 10px; background: #f8fafc; color: #4e5968; font-size: 14px; }
+        .meta-note a { color: #2f80ed; text-decoration: none; }
+        footer { text-align: center; padding: 60px 0; color: #8b95a1; font-size: 13px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .doc-container { margin: 0; border-radius: 0; padding: 30px 20px; } .select-wrapper { top: 60px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../index.html" class="logo">ITERR 통합 정책</a>
+            <a href="../index.html" class="close-btn">✕ 닫기</a>
+        </div>
+    </header>
+
+    <div class="doc-container">
+        <div class="select-wrapper">
+            <label style="display:block; margin-bottom:10px; font-size:14px; color:#6b7684; font-weight:600;">확인할 정책을 선택해주세요</label>
+            <select id="policySelect" class="policy-select" onchange="changePolicy()">
+                <option value="terms_master">통합 서비스 이용약관 (2026.02.15 시행 - 현행)</option>
+                <option value="privacy_master">통합 개인정보 처리방침 (2026.02.15 시행 - 현행)</option>
+                <option value="annex_pomodream">별첨 A - PomoDream 정책</option>
+                <option value="annex_cloudedpages">별첨 B - 뭉게뭉게 독서록 정책</option>
+            </select>
+        </div>
+
+        <div id="terms_master" class="policy-content active">
+            <h1>ITERR 통합 서비스 이용약관</h1>
+            <span class="badge">공고일자: 2026.02.15 / 시행일자: 2026.02.15</span>
+
+            <h2>제1조 (목적)</h2>
+            <p>본 약관은 이테르(ITERR)가 운영하는 앱 및 디지털 서비스의 이용과 관련하여 회사와 이용자 간 권리, 의무, 책임사항을 규정함을 목적으로 합니다.</p>
+
+            <h2>제2조 (적용 범위)</h2>
+            <ol>
+                <li>본 통합 약관은 ITERR가 현재 운영하거나 향후 추가하는 서비스에 적용됩니다.</li>
+                <li>개별 앱의 상세 조건은 별첨 또는 개별 정책에서 정하며, 개별 정책은 본 약관의 일부로 봅니다.</li>
+            </ol>
+
+            <h2>제3조 (사업자 정보)</h2>
+            <ul>
+                <li>상호: 이테르(ITERR)</li>
+                <li>대표자: 박건영</li>
+                <li>사업장 주소: 경기도 평택시 원평로25번길 63, 101동 9층 902호(군문동, 평택군문1단지 주공아파트)</li>
+                <li>고객센터: support@iterr.store / 010-7714-2006</li>
+                <li>사업자등록번호: 102-04-06439</li>
+                <li>통신판매업 신고번호: 신고 진행중</li>
+                <li>호스트서버 소재지: Cloudflare (서울특별시 서초구 서초대로77길 55 (서초동) 06비105)</li>
+            </ul>
+
+            <h2>제4조 (서비스 제공, 변경, 종료)</h2>
+            <ol>
+                <li>회사는 서비스 내용을 운영상 필요에 따라 변경할 수 있으며, 중요한 사항은 사전에 공지합니다.</li>
+                <li>서비스 종료가 필요한 경우 원칙적으로 최소 30일 전 공지합니다.</li>
+                <li>서비스 종료 시 해당 서비스 내 유료 기능(구독, 평생 이용권 포함)은 더 이상 이용할 수 없습니다.</li>
+                <li>단, 환급·보상 등 이용자 보호 조치는 관계 법령에 따라 진행됩니다.</li>
+            </ol>
+
+            <h2>제5조 (결제 및 환불)</h2>
+            <ol>
+                <li>현재 유료 결제는 App Store 인앱결제 방식으로 처리합니다.</li>
+                <li>환불은 Apple 환불 절차를 통해 진행될 수 있으며, 회사는 관련 법령에 따라 필요한 안내를 제공합니다.</li>
+                <li>청약철회, 환급 관련 권리는 전자상거래법 등 관계 법령을 따릅니다.</li>
+            </ol>
+
+            <h2>제6조 (이용자의 의무)</h2>
+            <ol>
+                <li>이용자는 법령, 본 약관 및 서비스 안내를 준수해야 합니다.</li>
+                <li>이용자는 타인의 권리를 침해하거나 서비스 운영을 방해하는 행위를 해서는 안 됩니다.</li>
+            </ol>
+
+            <h2>제7조 (분쟁해결 및 준거법)</h2>
+            <ol>
+                <li>본 약관은 대한민국 법령에 따라 해석됩니다.</li>
+                <li>분쟁은 관련 법령상 관할법원에서 해결합니다.</li>
+            </ol>
+
+            <h2>개정 이력</h2>
+            <table>
+                <thead>
+                    <tr><th>버전</th><th>공고일</th><th>시행일</th><th>비고</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>v1.0</td><td>2026.02.15</td><td>2026.02.15</td><td>현행</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="privacy_master" class="policy-content">
+            <h1>ITERR 통합 개인정보 처리방침</h1>
+            <span class="badge">공고일자: 2026.02.15 / 시행일자: 2026.02.15</span>
+
+            <p>이테르(ITERR)는 개인정보 보호법 등 관련 법령을 준수하며, 서비스 제공에 필요한 최소 범위 내에서 개인정보를 처리합니다.</p>
+
+            <h2>제1조 (처리 목적)</h2>
+            <ol>
+                <li>서비스 기능 제공 및 운영</li>
+                <li>오류 분석 및 품질 개선(Firebase Analytics)</li>
+                <li>광고 제공(PomoDream에 한해 Google AdMob 사용 가능)</li>
+                <li>고객 문의 대응</li>
+            </ol>
+
+            <h2>제2조 (서비스별 처리 항목 개요)</h2>
+            <table>
+                <thead>
+                    <tr><th>서비스</th><th>주요 처리 항목</th><th>저장 위치</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>뭉게뭉게 독서록</td><td>앱 이용 로그, 기기 정보, 이용자 작성 데이터</td><td>기기 로컬 저장소</td></tr>
+                    <tr><td>PomoDream</td><td>앱 이용 로그, 광고 관련 정보(IDFA 등), 이용자 작성 데이터</td><td>기기 로컬 저장소</td></tr>
+                </tbody>
+            </table>
+
+            <h2>제3조 (제3자 처리 및 국외이전)</h2>
+            <ol>
+                <li>Firebase Analytics 및 Google AdMob 사용 과정에서 Google LLC가 데이터를 처리할 수 있습니다.</li>
+                <li>해당 데이터는 미국 등 국외에서 처리될 수 있으며, 관련 법령이 요구하는 보호조치를 적용합니다.</li>
+            </ol>
+
+            <h2>제4조 (보유 및 파기)</h2>
+            <ol>
+                <li>앱 로컬 데이터는 이용자가 삭제할 때까지 기기에 보관됩니다.</li>
+                <li>법령상 보관의무가 없는 개인정보는 처리 목적 달성 시 지체 없이 파기합니다.</li>
+            </ol>
+
+            <h2>제5조 (아동의 개인정보)</h2>
+            <ol>
+                <li>ITERR 서비스는 원칙적으로 만 14세 미만 아동을 대상으로 하지 않습니다.</li>
+                <li>만 14세 미만 아동 개인정보가 확인되면 법정대리인 동의 절차를 따르거나 필요한 삭제 조치를 진행합니다.</li>
+            </ol>
+
+            <h2>제6조 (정보주체 권리 및 문의)</h2>
+            <p>이용자는 개인정보 관련 문의, 열람·정정·삭제 요청을 아래 연락처로 할 수 있습니다.</p>
+            <ul>
+                <li>이메일: support@iterr.store</li>
+                <li>연락처: 010-7714-2006</li>
+            </ul>
+
+            <h2>개정 이력</h2>
+            <table>
+                <thead>
+                    <tr><th>버전</th><th>공고일</th><th>시행일</th><th>비고</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>v1.0</td><td>2026.02.15</td><td>2026.02.15</td><td>현행</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="annex_pomodream" class="policy-content">
+            <h1>별첨 A - PomoDream 정책 요약</h1>
+            <span class="badge">적용일: 2026.02.15</span>
+
+            <h2>1) 결제/상품</h2>
+            <ol>
+                <li>결제수단: Apple App Store 인앱결제(IAP)</li>
+                <li>상품: 월간 2,200원 / 연간 19,000원 / Pro 평생 39,000원</li>
+                <li>월간 7일 무료체험 제공 가능</li>
+            </ol>
+
+            <h2>2) 자동갱신/환불</h2>
+            <ol>
+                <li>구독은 자동갱신 방식이며 해지는 Apple ID 구독 관리에서 직접 처리</li>
+                <li>환불은 Apple 정책을 따르되 법령상 이용자 권리를 보장</li>
+            </ol>
+
+            <h2>3) 서비스 종료</h2>
+            <p>서비스 종료 시 Pro 평생 이용권 포함 유료 기능은 이용할 수 없으며, 관련 법령에 따른 보호조치를 진행합니다.</p>
+
+            <div class="meta-note">
+                전체 본문은 <a href="/policy-pomodream/">PomoDream 정책 페이지</a>에서 확인할 수 있습니다.
+            </div>
+        </div>
+
+        <div id="annex_cloudedpages" class="policy-content">
+            <h1>별첨 B - 뭉게뭉게 독서록 정책 요약</h1>
+            <span class="badge">적용일: 2026.02.15</span>
+
+            <h2>1) 서비스 성격</h2>
+            <ol>
+                <li>현재 무료 서비스</li>
+                <li>향후 유료 기능 도입 시 사전 공지 및 정책 개정</li>
+            </ol>
+
+            <h2>2) 데이터/개인정보</h2>
+            <ol>
+                <li>이용자 데이터는 기기 로컬 저장소 기반으로 관리</li>
+                <li>Firebase Analytics를 통한 서비스 품질 분석 가능</li>
+            </ol>
+
+            <div class="meta-note">
+                전체 본문은 <a href="/policy-cloudedpages/">뭉게뭉게 독서록 정책 페이지</a>에서 확인할 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ITERR. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function changePolicy() {
+            const selectedValue = document.getElementById('policySelect').value;
+            document.querySelectorAll('.policy-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(selectedValue).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab) {
+                const select = document.getElementById('policySelect');
+                if (select.querySelector(`option[value="${tab}"]`)) {
+                    select.value = tab;
+                    changePolicy();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>뭉게뭉게 독서록 - 가치있는 독서록</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        /* --- 1. 디자인 시스템 (Toss Style) --- */
+        :root {
+            --color-blue: #3B82F6;
+            --color-orange: #F59E0B;
+            --color-red: #EF4444;
+            --color-bg: #FFFFFF;
+            --color-bg-grey: #F9FAFB;
+            --color-text-primary: #191F28;
+            --color-text-secondary: #4E5968;
+            
+            --font-main: 'Pretendard', -apple-system, system-ui, sans-serif;
+            --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+            --shadow-float: 0 20px 40px rgba(0,0,0,0.12);
+            --radius-m: 24px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: var(--font-main);
+            color: var(--color-text-primary);
+            background-color: var(--color-bg);
+            line-height: 1.5;
+            word-break: keep-all;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        a:hover { opacity: 0.8; }
+        
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .highlight { font-weight: 800; color: var(--color-blue); }
+        .highlight.orange { color: var(--color-orange); }
+
+        /* --- 헤더 --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        
+        .header-inner { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo img { height: 28px; width: auto; display: block; }
+        .btn-download-sm {
+            background-color: var(--color-blue);
+            color: white;
+            font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 20px;
+        }
+
+        /* --- 히어로 --- */
+        .hero {
+            padding-top: 160px; padding-bottom: 100px; text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(59,130,246,0.08), transparent 60%);
+        }
+        .app-icon-lg {
+            width: 140px; height: 140px; border-radius: 36px;
+            box-shadow: var(--shadow-float); margin-bottom: 40px;
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        .hero h1 { font-size: 56px; font-weight: 800; line-height: 1.25; margin-bottom: 24px; letter-spacing: -1px; }
+        .hero p { font-size: 20px; color: var(--color-text-secondary); margin-bottom: 48px; }
+        
+        .btn-store-lg {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #191F28; color: white; padding: 16px 36px; border-radius: 18px;
+            font-size: 18px; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- 기능 섹션 (ZigZag + Gallery) --- */
+        .section { padding: 120px 0; }
+        .section.bg-grey { background-color: var(--color-bg-grey); }
+
+        .feature-row {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 60px; margin-bottom: 100px; /* 간격 넓힘 */
+        }
+        .feature-row:last-child { margin-bottom: 0; }
+        .feature-row.reverse { flex-direction: row-reverse; }
+
+        .text-group { flex: 1; min-width: 300px; }
+        .text-group h2 { font-size: 42px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; }
+        .text-group p { font-size: 19px; color: var(--color-text-secondary); line-height: 1.6; }
+        
+        .visual-group { flex: 1; display: flex; justify-content: center; position: relative; }
+        
+        .phone-mockup {
+            width: 100%; max-width: 480px; height: auto;
+            border-radius: 32px; border: 8px solid #f2f2f2;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12); overflow: hidden;
+            background: white;
+        }
+        .phone-mockup img { width: 100%; display: block; }
+
+        /* --- 카드 공유 갤러리 (New Section) --- */
+        .gallery-section {
+            text-align: center;
+            margin-top: 80px; /* 위 섹션과의 간격 */
+        }
+        .gallery-section h2 { font-size: 42px; font-weight: 700; margin-bottom: 16px; }
+        .gallery-section p { font-size: 19px; color: var(--color-text-secondary); margin-bottom: 50px; }
+
+        .card-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover { transform: translateY(-10px); box-shadow: var(--shadow-float); }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* --- Value Grid --- */
+        .value-section { padding: 100px 0; text-align: center; }
+        .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+        .value-card {
+            background: white; padding: 40px 32px; border-radius: var(--radius-m);
+            box-shadow: var(--shadow-card); text-align: left; border: 1px solid rgba(0,0,0,0.03);
+        }
+        .icon-circle {
+            width: 56px; height: 56px; border-radius: 20px; font-size: 24px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+        }
+        .bg-blue { background: rgba(59,130,246,0.1); color: var(--color-blue); }
+        .bg-red { background: rgba(239,68,68,0.1); color: var(--color-red); }
+        .bg-purple { background: rgba(139, 92, 246, 0.1); color: #8B5CF6; }
+
+        .value-card h3 { font-size: 22px; margin-bottom: 12px; }
+        .value-card p { font-size: 16px; color: var(--color-text-secondary); }
+
+        /* --- CTA & Footer --- */
+        .cta-section { padding: 140px 0; text-align: center; background-color: var(--color-bg-grey); }
+        footer { background: #191F28; color: #B0B8C1; padding: 60px 0; font-size: 14px; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; }
+        .footer-links a { margin-left: 20px; }
+
+        /* --- 반응형 --- */
+        @media (max-width: 960px) {
+            .hero h1 { font-size: 42px; }
+            .feature-row { flex-direction: column; gap: 40px; text-align: center; }
+            .feature-row.reverse { flex-direction: column; }
+            .phone-mockup { width: 90%; max-width: 400px; margin: 0 auto; }
+            .card-gallery { grid-template-columns: 1fr; gap: 40px; } /* 모바일에서 갤러리 세로 정렬 */
+            .gallery-item { max-width: 320px; margin: 0 auto; }
+            .value-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo_moong.png" alt="로고">
+            </a>
+            <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-download-sm">앱 다운로드</a>
+        </div>
+    </header>
+
+    <section class="hero container">
+        <div class="reveal">
+            <img src="images/icon_moonbook.png" alt="앱 아이콘" class="app-icon-lg">
+            <h1>
+                책의 경계를 넘어<br>
+                <span class="highlight">나만의 생각 구름</span>을 띄우다
+            </h1>
+            <p>흩어지는 독서의 순간들, 이제 뭉게뭉게 독서록에서<br>아름답게 모으고 간직하세요.</p>
+            
+            <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-store-lg">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.55 1.37.57 2.72.43 3.07 1.17-.16 2.56-1.02 2.56-2.93 0-1.28-.6-2.43-1.46-3.02C13.56.96 11.97 1.3 11.75 1.3c-.02.16-.29 1.54 1.25 2.2z"/></svg>
+                <span>App Store 다운로드</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="section bg-grey">
+        <div class="container">
+            
+            <div class="feature-row reveal">
+                <div class="text-group">
+                    <h2>책이라는 벽을 허물어<br>만드는 <span class="highlight">생각 구름</span></h2>
+                    <p>책별로 나눠진 기록은 이제 그만.<br>내 마음을 찌른 문장들을 주제별로 모아보세요.<br>여러 책의 생각이 모여 하나의 거대한 인사이트가 됩니다.</p>
+                </div>
+                <div class="visual-group">
+                    <div class="phone-mockup">
+                        <img src="images/ipad/cloud.png" alt="구름별 독서 기록 화면">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-row reverse reveal">
+                <div class="text-group">
+                    <h2>무언가가<br>몽글몽글 떠오를 땐<br><span class="highlight orange">채팅하듯 적으세요</span></h2>
+                    <p>무언가 떠오르는 그 순간, 형식을 고민하지 마세요.<br>친구에게 톡을 보내듯 편안하게.<br>당신의 생각 흐름 그대로 기록하면 됩니다.</p>
+                </div>
+                <div class="visual-group">
+                    <div class="phone-mockup">
+                        <img src="images/ipad/chat.png" alt="채팅형 독서 기록 화면">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-row reveal">
+                <div class="text-group">
+                    <h2>메모장의 보물들,<br><span class="highlight">딸깍 한번에 정리</span></h2>
+                    <p>여기저기 흩어져 있던 메모장 속 글귀들.<br>복사해서 붙여넣기만 하세요.<br>문장을 분석해 예쁘게 카드로 만들어줍니다.</p>
+                </div>
+                <div class="visual-group">
+                    <div class="phone-mockup">
+                        <img src="images/ipad/summary.png" alt="붙여넣기로 노트 추가 화면">
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-section reveal">
+                <h2>좋은 건 <span class="highlight orange">나눌수록 빛나요</span></h2>
+                <p>마음에 든 책과 당신의 대단한 생각을<br>감성적인 카드로 만들어 공유해보세요.</p>
+                
+                <div class="card-gallery">
+                    <div class="gallery-item">
+                        <img src="images/cards/card1.jpg" alt="카드 공유 예시 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/cards/card2.jpg" alt="카드 공유 예시 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/cards/card3.jpg" alt="카드 공유 예시 3">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="value-section container reveal">
+        <h2>독서가 더 즐거워지는 디테일</h2>
+        <div class="value-grid">
+            <div class="value-card">
+                <div class="icon-circle bg-blue">⚡️</div>
+                <h3>1초 만에 책 등록</h3>
+                <p>읽던 책, 바코드 스캔 한 번이면<br>내 서재로 즉시 들어옵니다.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="icon-circle bg-red">☁️</div>
+                <h3>감성적인 디자인</h3>
+                <p>딱딱한 텍스트 대신<br>포근한 구름 위에서 독서하세요.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon-circle bg-purple">🔒</div>
+                <h3>안전한 백업</h3>
+                <p>iCloud 동기화로 내 소중한<br>독서 기록을 안전하게 보관해요.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container reveal">
+            <h2 style="font-size: 40px; font-weight: 800; margin-bottom: 30px;">
+                지금 바로 당신의 생각을<br>구름으로 띄워보세요
+            </h2>
+            <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-store-lg">
+                <span>무료로 시작하기</span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-info">
+                <strong>뭉게뭉게 독서록</strong><br>
+                <span style="opacity: 0.7; margin-top: 8px; display: inline-block;">
+                    Developer. 1인 대학생 개발자<br>
+                    Email. ggeeooon@gmail.com
+                </span>
+                <p style="margin-top: 20px; opacity: 0.5;">&copy; 2026 MoongMoong Reading Log. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#features">기능 소개</a>
+                <a href="policy.html?tab=terms_current" target="_blank">이용약관</a>
+                <a href="policy.html?tab=privacy_current" target="_blank">개인정보처리방침</a>
+                <a href="https://www.instagram.com/cloudy._.book_official/" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // 한 번만 실행
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        // 초기 로드 시 히어로 섹션 바로 활성화
+        setTimeout(() => {
+            document.querySelector('.hero .reveal').classList.add('active');
+        }, 100);
+    </script>
+
+</body>
+</html>
