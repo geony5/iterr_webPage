@@ -89,6 +89,13 @@
         
         .hero h1 { font-size: 56px; font-weight: 800; line-height: 1.25; margin-bottom: 24px; letter-spacing: -1px; }
         .hero p { font-size: 20px; color: var(--color-text-secondary); margin-bottom: 48px; }
+        .platform-note {
+            margin-top: -28px;
+            margin-bottom: 32px;
+            font-size: 15px;
+            color: #64748B;
+            font-weight: 600;
+        }
         .hero-actions {
             display: flex;
             justify-content: center;
@@ -196,6 +203,12 @@
             align-items: center;
             gap: 12px;
         }
+        .cta-platform-note {
+            margin-top: 14px;
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 600;
+        }
         footer { background: #191F28; color: #B0B8C1; padding: 60px 0; font-size: 14px; }
         .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; }
         .footer-links a { margin-left: 20px; }
@@ -211,6 +224,7 @@
             .value-grid { grid-template-columns: 1fr; }
             .hero-actions { flex-direction: column; }
             .btn-store-lg, .btn-value-lg { width: 100%; }
+            .platform-note { margin-top: -16px; margin-bottom: 24px; font-size: 14px; }
         }
     </style>
 </head>
@@ -221,7 +235,7 @@
             <a href="index.html" class="logo">
                 <img src="images/logo_moong.png" alt="로고">
             </a>
-            <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-download-sm">앱 다운로드</a>
+            <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn-download-sm js-appstore-link" data-cta="header_top">iOS/iPadOS 받기</a>
         </div>
     </header>
 
@@ -233,13 +247,14 @@
                 <span class="highlight">나만의 생각 구름</span>을 띄우다
             </h1>
             <p>흩어지는 독서의 순간들, 이제 뭉게뭉게 독서록에서<br>아름답게 모으고 간직하세요.</p>
+            <p class="platform-note">iPhone/iPad 전용 서비스입니다. Android는 현재 지원하지 않습니다.</p>
 
             <div class="hero-actions">
-                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-store-lg">
+                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn-store-lg js-appstore-link" data-cta="hero_main">
                     <span class="apple-symbol" aria-hidden="true"></span>
-                    <span>App Store 다운로드</span>
+                    <span>iOS/iPadOS App Store 다운로드</span>
                 </a>
-                <a href="why-moong.html" class="btn-value-lg">가치를 더 자세하게 확인해보기</a>
+                <a href="why-moong.html" class="btn-value-lg js-value-link js-preserve-query" data-cta="hero_value_detail">가치를 더 자세하게 확인해보기</a>
             </div>
         </div>
     </section>
@@ -332,11 +347,12 @@
                 지금 바로 당신의 생각을<br>구름으로 띄워보세요
             </h2>
             <div class="cta-actions">
-                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" class="btn-store-lg">
-                    <span>무료로 시작하기</span>
+                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn-store-lg js-appstore-link" data-cta="bottom_cta">
+                    <span>iOS/iPadOS에서 무료로 시작하기</span>
                 </a>
-                <a href="why-moong.html" class="btn-value-lg">뭉게뭉게 독서록만의 가치를 자세하게 살펴보기</a>
+                <a href="why-moong.html" class="btn-value-lg js-value-link js-preserve-query" data-cta="bottom_value_detail">뭉게뭉게 독서록만의 가치를 자세하게 살펴보기</a>
             </div>
+            <p class="cta-platform-note">App Store에서 설치 가능하며 iPhone/iPad에서만 이용할 수 있어요.</p>
         </div>
     </section>
 
@@ -359,6 +375,121 @@
         </div>
     </footer>
     <script>
+        const GA_MEASUREMENT_ID = "G-61J94BRN5P"; // 실제 GA4 측정 ID
+        const GA_PLACEHOLDER_ID = "G-XXXXXXXXXX";
+        const APP_STORE_BASE_URL = "https://apps.apple.com/kr/app/id6751841852";
+        const MARKETING_KEYS = ["gclid", "fbclid", "ttclid", "igshid", "wbraid", "gbraid"];
+
+        const incomingParams = new URLSearchParams(window.location.search);
+
+        function extractMarketingParams() {
+            const params = new URLSearchParams();
+
+            incomingParams.forEach((value, key) => {
+                if (key.startsWith("utm_") || MARKETING_KEYS.includes(key)) {
+                    params.set(key, value);
+                }
+            });
+
+            return params;
+        }
+
+        function applyDefaultUtm(params, ctaName) {
+            if (!params.has("utm_source")) params.set("utm_source", "website");
+            if (!params.has("utm_medium")) params.set("utm_medium", "organic");
+            if (!params.has("utm_campaign")) params.set("utm_campaign", "moong_homepage");
+            if (!params.has("utm_content") && ctaName) params.set("utm_content", ctaName);
+        }
+
+        function appendIncomingQuery(link) {
+            if (!incomingParams.toString()) return;
+
+            const url = new URL(link.getAttribute("href"), window.location.href);
+
+            incomingParams.forEach((value, key) => {
+                if (!url.searchParams.has(key)) {
+                    url.searchParams.set(key, value);
+                }
+            });
+
+            link.setAttribute("href", url.toString());
+        }
+
+        function applyAppStoreLink(link) {
+            const ctaName = link.dataset.cta || "unknown";
+            const appStoreUrl = new URL(APP_STORE_BASE_URL);
+            const marketingParams = extractMarketingParams();
+
+            applyDefaultUtm(marketingParams, ctaName);
+            marketingParams.forEach((value, key) => appStoreUrl.searchParams.set(key, value));
+            link.setAttribute("href", appStoreUrl.toString());
+        }
+
+        function initGa4() {
+            if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER_ID) {
+                return;
+            }
+
+            const gaScript = document.createElement("script");
+            gaScript.async = true;
+            gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+            document.head.appendChild(gaScript);
+
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag() { window.dataLayer.push(arguments); };
+            window.gtag("js", new Date());
+            window.gtag("config", GA_MEASUREMENT_ID, {
+                anonymize_ip: true
+            });
+        }
+
+        function trackEvent(name, params = {}) {
+            if (typeof window.gtag !== "function") return;
+            window.gtag("event", name, params);
+        }
+
+        function setupTracking() {
+            document.querySelectorAll(".js-appstore-link").forEach((link) => {
+                applyAppStoreLink(link);
+                link.addEventListener("click", () => {
+                    trackEvent("app_store_click", {
+                        page_type: "moong_home",
+                        cta_location: link.dataset.cta || "unknown"
+                    });
+                });
+            });
+
+            document.querySelectorAll(".js-value-link").forEach((link) => {
+                link.addEventListener("click", () => {
+                    trackEvent("value_detail_click", {
+                        page_type: "moong_home",
+                        cta_location: link.dataset.cta || "unknown"
+                    });
+                });
+            });
+
+            document.querySelectorAll(".js-preserve-query").forEach((link) => {
+                appendIncomingQuery(link);
+            });
+        }
+
+        function setupScrollTracking() {
+            let hasTrackedScroll50 = false;
+
+            window.addEventListener("scroll", () => {
+                if (hasTrackedScroll50) return;
+
+                const doc = document.documentElement;
+                if (!doc || doc.scrollHeight === 0) return;
+
+                const scrollRatio = (window.scrollY + window.innerHeight) / doc.scrollHeight;
+                if (scrollRatio >= 0.5) {
+                    trackEvent("scroll_50", { page_type: "moong_home" });
+                    hasTrackedScroll50 = true;
+                }
+            }, { passive: true });
+        }
+
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px"
@@ -373,11 +504,15 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        
-        // 초기 로드 시 히어로 섹션 바로 활성화
+        initGa4();
+        setupTracking();
+        setupScrollTracking();
+
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
         setTimeout(() => {
-            document.querySelector('.hero .reveal').classList.add('active');
+            const heroReveal = document.querySelector(".hero .reveal");
+            if (heroReveal) heroReveal.classList.add("active");
         }, 100);
     </script>
 
