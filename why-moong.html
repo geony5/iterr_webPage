@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>왜 뭉게뭉게 독서록인가 | 가치 상세</title>
+    <meta name="description" content="좋은 문장이 왜 금방 사라지는지, 그리고 뭉게뭉게 독서록이 어떻게 독서 기록을 삶의 기준으로 바꾸는지 안내합니다.">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --bg-top: #f5f8ff;
+            --bg-bottom: #f7fbff;
+            --card: #ffffff;
+            --line: #dbe4f6;
+            --text-main: #293249;
+            --text-sub: #57607a;
+            --brand: #5f86be;
+            --brand-dark: #3f5e92;
+            --mint: #93cabf;
+            --radius-l: 24px;
+            --radius-m: 18px;
+            --shadow: 0 14px 34px rgba(71, 87, 118, 0.1);
+            --shadow-soft: 0 10px 24px rgba(69, 84, 110, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 8% 10%, rgba(149, 184, 236, 0.2), transparent 30%),
+                radial-gradient(circle at 92% 15%, rgba(147, 202, 191, 0.2), transparent 28%),
+                linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 48%, #f8fbff 100%);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: min(1060px, calc(100% - 28px));
+            margin: 0 auto;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid rgba(219, 228, 246, 0.8);
+            background: rgba(247, 251, 255, 0.86);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .header-inner {
+            height: 66px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 28px;
+            width: auto;
+            display: block;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 42px;
+            padding: 0 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        .btn:focus-visible,
+        summary:focus-visible {
+            outline: 2px solid #7fa6df;
+            outline-offset: 2px;
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.86);
+            border-color: var(--line);
+            color: #445575;
+        }
+
+        .btn-main {
+            color: white;
+            background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+            box-shadow: var(--shadow-soft);
+        }
+
+        main {
+            padding: 56px 0 84px;
+        }
+
+        .hero {
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 4.8vw, 52px);
+            line-height: 1.22;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            margin-top: 16px;
+            color: var(--text-sub);
+            font-size: clamp(16px, 1.9vw, 21px);
+            line-height: 1.62;
+            max-width: 840px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        details.info-card {
+            border-radius: var(--radius-l);
+            border: 1px solid var(--line);
+            background: var(--card);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        details.info-card.wide {
+            grid-column: 1 / -1;
+        }
+
+        summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 22px 22px 18px;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .summary-copy h2 {
+            font-size: clamp(20px, 2.2vw, 29px);
+            line-height: 1.35;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .summary-copy p {
+            color: var(--text-sub);
+            font-size: clamp(15px, 1.5vw, 18px);
+            line-height: 1.62;
+            max-width: 62ch;
+        }
+
+        .plus {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid #d2def2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #60739c;
+            background: #f4f8ff;
+            flex-shrink: 0;
+        }
+
+        .plus::before {
+            content: "+";
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        details[open] .plus::before {
+            content: "-";
+        }
+
+        .detail-body {
+            border-top: 1px solid #e4ebf8;
+            padding: 0 22px 22px;
+        }
+
+        .detail-body p {
+            margin-top: 14px;
+            color: #4f5f7a;
+            font-size: clamp(15px, 1.4vw, 17px);
+            line-height: 1.78;
+            max-width: 74ch;
+        }
+
+        .solution {
+            margin-top: 14px;
+            border: 1px solid #d3e1f5;
+            border-radius: 30px;
+            background: linear-gradient(140deg, #f2f8ff 0%, #eef9f6 100%);
+            box-shadow: var(--shadow);
+            padding: 28px 26px;
+        }
+
+        .solution h2 {
+            font-size: clamp(24px, 2.9vw, 36px);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .solution p {
+            color: #4f5f78;
+            font-size: clamp(16px, 1.7vw, 20px);
+            line-height: 1.7;
+            max-width: 76ch;
+        }
+
+        .value-layer {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .value-item {
+            border-radius: var(--radius-m);
+            border: 1px solid var(--line);
+            background: white;
+            padding: 18px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .value-item h3 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .value-item p {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.55;
+        }
+
+        .cta-box {
+            margin-top: 24px;
+            border-radius: 26px;
+            padding: 28px;
+            background: linear-gradient(136deg, #5f86be 0%, #78a1d8 50%, #87bfb4 100%);
+            color: #fff;
+            box-shadow: 0 18px 34px rgba(64, 85, 126, 0.24);
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: clamp(24px, 3.2vw, 36px);
+            line-height: 1.34;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        .cta-box p {
+            font-size: clamp(15px, 1.6vw, 19px);
+            opacity: 0.94;
+            margin-bottom: 20px;
+            max-width: 62ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cta-box .btn-main {
+            background: #fff;
+            color: #3f5f95;
+            border-color: rgba(255,255,255,0.8);
+            box-shadow: none;
+        }
+
+        .cta-box .btn-ghost {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+        }
+        .legal-links {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #56637f;
+        }
+        .legal-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid #d6e1f3;
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        @media (max-width: 940px) {
+            .card-grid,
+            .value-layer {
+                grid-template-columns: 1fr;
+            }
+
+            details.info-card.wide {
+                grid-column: auto;
+            }
+
+            main {
+                padding-top: 42px;
+            }
+
+            .hero p,
+            .summary-copy p,
+            .detail-body p,
+            .solution p,
+            .cta-box p {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .container {
+                width: min(1120px, calc(100% - 20px));
+            }
+
+            .header-inner {
+                height: 60px;
+            }
+
+            summary,
+            .detail-body,
+            .solution,
+            .cta-box {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .cta-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="MoongBook_HomePage.html" class="logo" aria-label="메인 페이지로 이동">
+                <img src="images/logo_moong.png" alt="뭉게뭉게 독서록 로고">
+            </a>
+            <div class="header-actions">
+                <a href="MoongBook_HomePage.html" class="btn btn-ghost">메인으로 돌아가기</a>
+                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main">App Store</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="container hero">
+            <h1>☁️ 왜 기존 독서 기록은 오래 남기 어려울까요?</h1>
+            <p>기록은 많아졌는데 삶은 그대로였다면, 당신의 문제가 아닙니다. 독서 기록이 책 정리에 머물렀기 때문입니다.<br>뭉게뭉게 독서록은 가치를 키워주는 독서 기록 앱으로, 읽고 끝나는 메모를 내 선택을 바꾸는 기준으로 키웁니다.</p>
+        </section>
+
+        <section class="container" aria-label="가치 상세 설명">
+            <div class="card-grid">
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🧩 분절된 메모</h2>
+                            <p>책마다 저장된 기록은 서로 연결되지 않아 같은 주제를 다시 찾기 어렵습니다.</p>
+                        </div>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>좋은 문장을 분명 적어뒀는데, 시간이 지나면 어디에 적었는지부터 막막해집니다. 책은 남아도, 내 마음에 남은 핵심은 흩어지는 이유입니다.</p>
+                        <p>뭉게뭉게 독서록은 독서 기록을 책 제목보다 내가 정한 가치 이름으로 묶습니다. 그래서 흔들리는 순간에도 “어떤 문장이 지금 나를 붙잡아줄지”를 더 빨리 만날 수 있습니다.</p>
+                    </div>
+                </details>
+
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🔎 활용성 저하</h2>
+                            <p>좋은 문장을 모아도 고민하는 순간에 즉시 참고하기가 쉽지 않습니다.</p>
+                        </div>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>결정이 필요한 순간에는 길게 검색할 마음의 여유가 없습니다. 꺼내 쓰기 어려운 기록은 결국 “좋았던 문장”으로만 남고, 삶에는 닿지 못합니다.</p>
+                        <p>가치관 구름에 모인 독서 기록은 지금 내 고민과 가까운 문장을 먼저 보여줍니다. 기록이 보관함이 아니라, 오늘의 선택을 도와주는 나만의 참고서가 됩니다.</p>
+                    </div>
+                </details>
+
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🌱 동기 하락</h2>
+                            <p>정리 방식이 복잡하면 기록이 부담이 되고 결국 앱 사용이 끊깁니다.</p>
+                        </div>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>기록이 숙제처럼 느껴지는 순간, 독서는 기쁨이 아니라 부담이 됩니다. 처음의 다짐은 좋았지만 며칠 뒤 앱을 열지 않게 되는 이유가 여기에 있습니다.</p>
+                        <p>채팅하듯 적는 독서 기록 흐름은 생각이 살아 있는 순간을 놓치지 않게 도와줍니다. 복잡한 정리보다 “일단 남기는 경험”을 살려, 바쁜 날에도 자연스럽게 다시 쓰게 만듭니다.</p>
+                    </div>
+                </details>
+
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>💭 맥락 단절</h2>
+                            <p>문장만 남으면 왜 인상 깊었는지 감정 맥락이 사라져 삶에 옮길 힘이 약해집니다.</p>
+                        </div>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>문장만 저장하면 정보는 남지만, 그 문장이 왜 내 마음을 움직였는지는 사라집니다. 감정이 빠진 기록은 시간이 지나면 낯선 텍스트로 느껴집니다.</p>
+                        <p>뭉게뭉게 독서록은 독서 기록에 문장과 감정을 함께 남겨 그날의 맥락을 지켜줍니다. 다시 읽는 순간, 당시의 고민과 결심이 되살아나 행동으로 연결되기 쉬워집니다.</p>
+                    </div>
+                </details>
+
+                <details class="info-card wide">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>✨ 변화로 이어지지 않음</h2>
+                            <p>좋은 통찰도 삶으로 이어지지 않으면 변화는 멈춥니다.</p>
+                        </div>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>읽을 때는 분명 감동했는데, 하루가 지나면 예전처럼 행동하게 되는 경험. 많은 독서가 이 지점에서 멈춥니다.</p>
+                        <p>가치관 구름은 독서 기록 속 같은 주제의 문장을 한곳에 모아, 필요한 순간마다 다시 만나게 합니다. 한 번의 감동이 금방 사라지는 기분이 아니라, 삶을 바꾸는 나만의 기준으로 자라나게 합니다.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="solution">
+                <h2>☁️ 해결 방식: 가치관 중심 생각 구름</h2>
+                <p>문장과 감정을 가치관 이름의 구름에 차곡차곡 쌓아, 책 중심 기록을 “내 삶 중심 기록”으로 바꿉니다. 뭉게뭉게 독서록은 가치를 키워주는 독서 기록 앱으로서, 흔들리는 순간 나를 붙잡아주는 기준을 매일 조금씩 키워줍니다.</p>
+            </div>
+
+            <div class="value-layer">
+                <article class="value-item">
+                    <h3>🧭 기억보다 기준</h3>
+                    <p>읽은 권수보다, 독서 기록 속 한 문장이 오늘의 선택을 바꾸게 만듭니다.</p>
+                </article>
+                <article class="value-item">
+                    <h3>🚶 정보보다 행동</h3>
+                    <p>고개만 끄덕이는 통찰이 아니라, 실제로 움직이게 하는 독서 기록을 만듭니다.</p>
+                </article>
+                <article class="value-item">
+                    <h3>🫶 복잡성보다 지속성</h3>
+                    <p>바쁜 날에도 10초면 남길 수 있어, 기록 습관이 오래갑니다.</p>
+                </article>
+            </div>
+
+            <div class="cta-box">
+                <h2>💙 오늘의 문장이<br>내일의 용기가 되도록</h2>
+                <p>광고 없이 편안하게, iCloud로 안전하게. 가치를 키워주는 독서 기록 앱으로 당신만의 생각 구름을 키워보세요.</p>
+                <div class="cta-actions">
+                    <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main">App Store에서 시작하기</a>
+                    <a href="MoongBook_HomePage.html" class="btn btn-ghost">메인 페이지로 돌아가기</a>
+                </div>
+            </div>
+            <div class="legal-links">
+                <a href="policy.html?tab=terms_current" target="_blank" rel="noopener noreferrer">이용약관</a>
+                <a href="policy.html?tab=privacy_current" target="_blank" rel="noopener noreferrer">개인정보처리방침</a>
+                <a href="https://www.instagram.com/cloudy._.book_official/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
