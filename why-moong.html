@@ -107,7 +107,8 @@
         .btn:hover {
             transform: translateY(-1px);
         }
-        .btn:focus-visible {
+        .btn:focus-visible,
+        summary:focus-visible {
             outline: 2px solid #7fa6df;
             outline-offset: 2px;
         }
@@ -125,239 +126,113 @@
         }
 
         main {
-            padding: 28px 0 84px;
+            padding: 56px 0 84px;
         }
 
         .hero {
-            min-height: calc(100vh - 98px);
-            display: flex;
-            align-items: center;
-            padding: 24px 0 56px;
-        }
-
-        .hero-layout {
-            display: grid;
-            grid-template-columns: minmax(0, 720px) minmax(280px, 1fr);
-            gap: 32px;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-inner {
-            max-width: 760px;
-        }
-
-        .hero-art {
-            position: relative;
-            min-height: 420px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .floating-logo {
-            width: min(100%, 420px);
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 34%;
-            background:
-                radial-gradient(circle at 28% 22%, rgba(241, 249, 255, 0.96), rgba(190, 223, 255, 0.9) 46%, rgba(134, 189, 248, 0.86) 100%);
-            border: 1px solid rgba(154, 197, 243, 0.95);
-            box-shadow:
-                0 24px 50px rgba(88, 132, 194, 0.2),
-                inset 0 1px 0 rgba(255,255,255,0.55);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            animation: floatBlob 7s ease-in-out infinite;
-            position: relative;
-        }
-
-        .floating-logo::before,
-        .floating-logo::after {
-            content: "";
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(221, 240, 255, 0.62);
-            filter: blur(3px);
-        }
-
-        .floating-logo::before {
-            width: 92px;
-            height: 92px;
-            top: 22px;
-            right: 36px;
-        }
-
-        .floating-logo::after {
-            width: 48px;
-            height: 48px;
-            left: 44px;
-            bottom: 42px;
-        }
-
-        .floating-logo img {
-            width: 78%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 10px 24px rgba(89, 112, 154, 0.16));
-            animation: floatLogo 7s ease-in-out infinite;
-        }
-
-        @keyframes floatBlob {
-            0%, 100% {
-                transform: translateY(0) rotate(-3deg) scale(1);
-                border-radius: 34% 66% 58% 42% / 38% 44% 56% 62%;
-            }
-            50% {
-                transform: translateY(-12px) rotate(3deg) scale(1.02);
-                border-radius: 42% 58% 44% 56% / 62% 38% 54% 46%;
-            }
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.76);
-            border: 1px solid var(--line);
-            color: #5b6d8e;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
+            margin-bottom: 28px;
         }
 
         .hero h1 {
-            margin-top: 16px;
-            font-size: clamp(34px, 5vw, 58px);
-            line-height: 1.18;
-            letter-spacing: -0.035em;
+            font-size: clamp(30px, 4.8vw, 52px);
+            line-height: 1.22;
+            letter-spacing: -0.03em;
         }
 
         .hero p {
             margin-top: 16px;
             color: var(--text-sub);
-            font-size: clamp(16px, 1.7vw, 20px);
-            line-height: 1.7;
-            max-width: 58ch;
+            font-size: clamp(16px, 1.9vw, 21px);
+            line-height: 1.62;
+            max-width: 840px;
         }
 
-        .story-shell {
-            padding-bottom: 8px;
-        }
-
-        .story-intro {
-            max-width: 700px;
-            margin-bottom: 30px;
-        }
-
-        .story-intro h2 {
-            font-size: clamp(22px, 2.8vw, 34px);
-            line-height: 1.3;
-            letter-spacing: -0.02em;
-        }
-
-        .story-intro p {
-            margin-top: 10px;
-            color: var(--text-sub);
-            font-size: 16px;
-            line-height: 1.7;
-        }
-
-        .story-stack {
+        .card-grid {
             display: grid;
-            gap: 22px;
-        }
-
-        .story-card {
-            max-width: 88%;
-            padding: 26px 24px;
-            border-radius: 28px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.92);
-            box-shadow: var(--shadow);
-        }
-
-        .story-card:nth-child(odd) {
-            margin-right: auto;
-        }
-
-        .story-card:nth-child(even) {
-            margin-left: auto;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 255, 0.92));
-        }
-
-        .story-head {
-            display: flex;
-            align-items: flex-start;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 14px;
+            margin-top: 18px;
         }
 
-        .story-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 14px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #eef4ff;
-            border: 1px solid #d8e4f8;
-            color: #6479a2;
-            font-size: 14px;
-            font-weight: 800;
-            flex-shrink: 0;
-            box-shadow: var(--shadow-soft);
+        details.info-card {
+            border-radius: var(--radius-l);
+            border: 1px solid var(--line);
+            background: var(--card);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
-        .story-copy h2 {
-            font-size: clamp(22px, 2.2vw, 30px);
-            line-height: 1.34;
+        details.info-card.wide {
+            grid-column: 1 / -1;
+        }
+
+        summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 22px 22px 18px;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .summary-copy h2 {
+            font-size: clamp(20px, 2.2vw, 29px);
+            line-height: 1.35;
             letter-spacing: -0.02em;
             margin-bottom: 8px;
         }
 
-        .story-copy p {
+        .summary-copy p {
             color: var(--text-sub);
-            font-size: clamp(15px, 1.45vw, 18px);
-            line-height: 1.7;
-            max-width: 58ch;
+            font-size: clamp(15px, 1.5vw, 18px);
+            line-height: 1.62;
+            max-width: 62ch;
         }
 
-        .story-body {
+        .plus {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1px solid #d2def2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #60739c;
+            background: #f4f8ff;
+            flex-shrink: 0;
+        }
+
+        .plus::before {
+            content: "+";
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        details[open] .plus::before {
+            content: "-";
+        }
+
+        .detail-body {
+            border-top: 1px solid #e4ebf8;
+            padding: 0 22px 22px;
+        }
+
+        .detail-body p {
             margin-top: 14px;
-            display: grid;
-            gap: 12px;
-        }
-
-        .story-body p {
             color: #4f5f7a;
-            font-size: clamp(15px, 1.35vw, 17px);
-            line-height: 1.8;
-            max-width: 72ch;
-        }
-
-        .fade-step {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .fade-step.visible {
-            opacity: 1;
-            transform: translateY(0);
+            font-size: clamp(15px, 1.4vw, 17px);
+            line-height: 1.78;
+            max-width: 74ch;
         }
 
         .solution {
-            margin-top: 18px;
+            margin-top: 14px;
             border: 1px solid #d3e1f5;
             border-radius: 30px;
             background: linear-gradient(140deg, #f2f8ff 0%, #eef9f6 100%);
@@ -375,8 +250,8 @@
         .solution p {
             color: #4f5f78;
             font-size: clamp(16px, 1.7vw, 20px);
-            line-height: 1.72;
-            max-width: 72ch;
+            line-height: 1.7;
+            max-width: 76ch;
         }
 
         .value-layer {
@@ -469,52 +344,24 @@
             border: 1px solid #d6e1f3;
             background: rgba(255, 255, 255, 0.82);
         }
-        .platform-note {
-            margin-top: 14px;
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.96);
-        }
 
         @media (max-width: 940px) {
-            main {
-                padding-top: 42px;
-            }
-
-            .hero {
-                min-height: auto;
-                padding-top: 16px;
-            }
-
-            .hero-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-art {
-                order: -1;
-                min-height: 280px;
-                margin-bottom: 12px;
-            }
-
-            .floating-logo {
-                width: min(82vw, 320px);
-            }
-
-            .story-card,
-            .story-card:nth-child(odd),
-            .story-card:nth-child(even) {
-                max-width: 100%;
-                margin-left: 0;
-                margin-right: 0;
-            }
-
+            .card-grid,
             .value-layer {
                 grid-template-columns: 1fr;
             }
 
+            details.info-card.wide {
+                grid-column: auto;
+            }
+
+            main {
+                padding-top: 42px;
+            }
+
             .hero p,
-            .story-copy p,
-            .story-body p,
+            .summary-copy p,
+            .detail-body p,
             .solution p,
             .cta-box p {
                 max-width: none;
@@ -530,7 +377,8 @@
                 height: 60px;
             }
 
-            .story-card,
+            summary,
+            .detail-body,
             .solution,
             .cta-box {
                 padding-left: 16px;
@@ -539,14 +387,6 @@
 
             .cta-actions .btn {
                 width: 100%;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .fade-step {
-                opacity: 1;
-                transform: none;
-                transition: none;
             }
         }
     </style>
@@ -558,288 +398,125 @@
                 <img src="images/logo_moong.png" alt="뭉게뭉게 독서록 로고">
             </a>
             <div class="header-actions">
-                <a href="MoongBook_HomePage.html" class="btn btn-ghost js-preserve-query" data-cta="header_back_home">메인으로 돌아가기</a>
-                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main js-appstore-link" data-cta="header_value_top">iOS/iPadOS App Store</a>
+                <a href="MoongBook_HomePage.html" class="btn btn-ghost">메인으로 돌아가기</a>
+                <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main">App Store</a>
             </div>
         </div>
     </header>
 
     <main>
         <section class="container hero">
-            <div class="hero-layout">
-                <div class="hero-inner">
-                    <span class="eyebrow">왜 오래 남지 않을까요</span>
-                    <h1>☁️ 독서 기록이<br>내 삶의 기준이 되려면</h1>
-                    <p>좋은 문장을 그냥 지나치고 싶지 않은 마음, 읽은 뒤의 감정과 생각을 오래 남기고 싶은 마음. 뭉게뭉게 독서록은 그 마음이 금방 흐려지지 않도록, 독서 기록을 내 삶의 기준으로 이어주는 앱입니다.</p>
-                </div>
-                <div class="hero-art" aria-hidden="true">
-                    <div class="floating-logo">
-                        <img src="images/아이콘배경제거.png" alt="">
-                    </div>
-                </div>
-            </div>
+            <h1>☁️ 왜 기존 독서 기록은 오래 남기 어려울까요?</h1>
+            <p>기록은 많아졌는데 삶은 그대로였다면, 당신의 문제가 아닙니다. 독서 기록이 책 정리에 머물렀기 때문입니다.<br>뭉게뭉게 독서록은 가치를 키워주는 독서 기록 앱으로, 읽고 끝나는 메모를 내 선택을 바꾸는 기준으로 키웁니다.</p>
         </section>
 
-        <section class="container story-shell" aria-label="가치 상세 설명">
-            <div class="story-intro fade-step">
-                <h2>좋은 문장을 적어도, 삶에 오래 남기 어려운 이유가 있어요.</h2>
-                <p>메모는 쌓이는데 필요할 때 떠오르지 않고, 감동은 남는데 삶까지 이어지지 않죠. 뭉게뭉게 독서록은 그 아쉬움을 줄이기 위해 만들어졌습니다.</p>
-            </div>
-
-            <div class="story-stack">
-                <article class="story-card fade-step" data-story-step="1">
-                    <div class="story-head">
-                        <span class="story-badge">01</span>
-                        <div class="story-copy">
-                            <h2>🧩 적어둔 문장을 다시 못 찾을 때</h2>
-                            <p>책마다 흩어진 기록은, 비슷한 고민이 다시 왔을 때 바로 꺼내 보기 어려워요.</p>
+        <section class="container" aria-label="가치 상세 설명">
+            <div class="card-grid">
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🧩 분절된 메모</h2>
+                            <p>책마다 저장된 기록은 서로 연결되지 않아 같은 주제를 다시 찾기 어렵습니다.</p>
                         </div>
-                    </div>
-                    <div class="story-body">
-                        <p>좋은 문장을 분명 적어뒀는데, 시간이 지나면 어디에 적었는지부터 막막해집니다. 책은 남아도, 정작 내 마음에 남아야 할 문장은 흩어집니다.</p>
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
+                        <p>좋은 문장을 분명 적어뒀는데, 시간이 지나면 어디에 적었는지부터 막막해집니다. 책은 남아도, 내 마음에 남은 핵심은 흩어지는 이유입니다.</p>
                         <p>뭉게뭉게 독서록은 독서 기록을 책 제목보다 내가 정한 가치 이름으로 묶습니다. 그래서 흔들리는 순간에도 “어떤 문장이 지금 나를 붙잡아줄지”를 더 빨리 만날 수 있습니다.</p>
                     </div>
-                </article>
+                </details>
 
-                <article class="story-card fade-step" data-story-step="2">
-                    <div class="story-head">
-                        <span class="story-badge">02</span>
-                        <div class="story-copy">
-                            <h2>🔎 필요한 순간엔 떠오르지 않아요</h2>
-                            <p>좋은 문장을 모아도, 정작 선택이 필요한 순간 바로 참고하기는 쉽지 않아요.</p>
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🔎 활용성 저하</h2>
+                            <p>좋은 문장을 모아도 고민하는 순간에 즉시 참고하기가 쉽지 않습니다.</p>
                         </div>
-                    </div>
-                    <div class="story-body">
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
                         <p>결정이 필요한 순간에는 길게 검색할 마음의 여유가 없습니다. 꺼내 쓰기 어려운 기록은 결국 “좋았던 문장”으로만 남고, 삶에는 닿지 못합니다.</p>
-                        <p>가치 구름에 모인 독서 기록은 지금 내 고민과 가까운 문장을 먼저 보여줍니다. 기록이 보관함이 아니라, 오늘의 선택을 도와주는 나만의 참고서가 됩니다.</p>
+                        <p>가치관 구름에 모인 독서 기록은 지금 내 고민과 가까운 문장을 먼저 보여줍니다. 기록이 보관함이 아니라, 오늘의 선택을 도와주는 나만의 참고서가 됩니다.</p>
                     </div>
-                </article>
+                </details>
 
-                <article class="story-card fade-step" data-story-step="3">
-                    <div class="story-head">
-                        <span class="story-badge">03</span>
-                        <div class="story-copy">
-                            <h2>🌱 처음만 열심히 쓰게 돼요</h2>
-                            <p>정리가 복잡해질수록 기록은 숙제처럼 느껴지고, 어느 순간 앱을 안 열게 돼요.</p>
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>🌱 동기 하락</h2>
+                            <p>정리 방식이 복잡하면 기록이 부담이 되고 결국 앱 사용이 끊깁니다.</p>
                         </div>
-                    </div>
-                    <div class="story-body">
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
                         <p>기록이 숙제처럼 느껴지는 순간, 독서는 기쁨이 아니라 부담이 됩니다. 처음의 다짐은 좋았지만 며칠 뒤 앱을 열지 않게 되는 이유가 여기에 있습니다.</p>
                         <p>채팅하듯 적는 독서 기록 흐름은 생각이 살아 있는 순간을 놓치지 않게 도와줍니다. 복잡한 정리보다 “일단 남기는 경험”을 살려, 바쁜 날에도 자연스럽게 다시 쓰게 만듭니다.</p>
                     </div>
-                </article>
+                </details>
 
-                <article class="story-card fade-step" data-story-step="4">
-                    <div class="story-head">
-                        <span class="story-badge">04</span>
-                        <div class="story-copy">
-                            <h2>💭 문장은 남아도 마음은 사라져요</h2>
-                            <p>문장만 남기면, 왜 그 문장이 와닿았는지까지는 오래 남지 않아요.</p>
+                <details class="info-card">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>💭 맥락 단절</h2>
+                            <p>문장만 남으면 왜 인상 깊었는지 감정 맥락이 사라져 삶에 옮길 힘이 약해집니다.</p>
                         </div>
-                    </div>
-                    <div class="story-body">
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
                         <p>문장만 저장하면 정보는 남지만, 그 문장이 왜 내 마음을 움직였는지는 사라집니다. 감정이 빠진 기록은 시간이 지나면 낯선 텍스트로 느껴집니다.</p>
-                        <p>뭉게뭉게 독서록은 독서 기록에 문장과 감정을 함께 남겨 그날의 마음을 지켜줍니다. 다시 읽는 순간, 당시의 고민과 결심이 되살아나 삶으로 이어지기 쉬워집니다.</p>
+                        <p>뭉게뭉게 독서록은 독서 기록에 문장과 감정을 함께 남겨 그날의 맥락을 지켜줍니다. 다시 읽는 순간, 당시의 고민과 결심이 되살아나 행동으로 연결되기 쉬워집니다.</p>
                     </div>
-                </article>
+                </details>
 
-                <article class="story-card fade-step" data-story-step="5">
-                    <div class="story-head">
-                        <span class="story-badge">05</span>
-                        <div class="story-copy">
-                            <h2>✨ 좋은 문장이 삶까지 닿지 않아요</h2>
-                            <p>감동한 문장도 다시 꺼내 보지 않으면, 하루가 지나며 금방 흐려져요.</p>
+                <details class="info-card wide">
+                    <summary>
+                        <div class="summary-copy">
+                            <h2>✨ 변화로 이어지지 않음</h2>
+                            <p>좋은 통찰도 삶으로 이어지지 않으면 변화는 멈춥니다.</p>
                         </div>
-                    </div>
-                    <div class="story-body">
+                        <span class="plus" aria-hidden="true"></span>
+                    </summary>
+                    <div class="detail-body">
                         <p>읽을 때는 분명 감동했는데, 하루가 지나면 예전처럼 행동하게 되는 경험. 많은 독서가 이 지점에서 멈춥니다.</p>
-                        <p>가치 구름은 독서 기록 속 같은 주제의 문장을 한곳에 모아, 필요한 순간마다 다시 만나게 합니다. 한 번의 감동이 금방 사라지는 기분이 아니라, 삶을 바꾸는 나만의 기준으로 자라나게 합니다.</p>
+                        <p>가치관 구름은 독서 기록 속 같은 주제의 문장을 한곳에 모아, 필요한 순간마다 다시 만나게 합니다. 한 번의 감동이 금방 사라지는 기분이 아니라, 삶을 바꾸는 나만의 기준으로 자라나게 합니다.</p>
                     </div>
-                </article>
+                </details>
             </div>
 
-            <div class="solution fade-step">
-                <h2>☁️ 좋은 문장이 내 기준으로 남는 방식</h2>
-                <p>문장과 감정을 가치 이름의 구름에 차곡차곡 쌓아, 책 중심 기록을 “내 삶 중심 기록”으로 바꿉니다. 뭉게뭉게 독서록은 가치를 키워주는 독서 기록 앱으로서, 흔들리는 순간 나를 붙잡아주는 기준을 조금씩 키워줍니다.</p>
+            <div class="solution">
+                <h2>☁️ 해결 방식: 가치관 중심 생각 구름</h2>
+                <p>문장과 감정을 가치관 이름의 구름에 차곡차곡 쌓아, 책 중심 기록을 “내 삶 중심 기록”으로 바꿉니다. 뭉게뭉게 독서록은 가치를 키워주는 독서 기록 앱으로서, 흔들리는 순간 나를 붙잡아주는 기준을 매일 조금씩 키워줍니다.</p>
             </div>
 
-            <div class="value-layer fade-step">
+            <div class="value-layer">
                 <article class="value-item">
-                    <h3>🧭 읽은 내용보다 남는 기준</h3>
+                    <h3>🧭 기억보다 기준</h3>
                     <p>읽은 권수보다, 독서 기록 속 한 문장이 오늘의 선택을 바꾸게 만듭니다.</p>
                 </article>
                 <article class="value-item">
-                    <h3>🚶 알게 되는 것보다 달라지는 것</h3>
-                    <p>고개만 끄덕이고 끝나는 통찰이 아니라, 실제로 움직이게 하는 독서 기록을 만듭니다.</p>
+                    <h3>🚶 정보보다 행동</h3>
+                    <p>고개만 끄덕이는 통찰이 아니라, 실제로 움직이게 하는 독서 기록을 만듭니다.</p>
                 </article>
                 <article class="value-item">
-                    <h3>🫶 복잡함보다 오래 가는 기록</h3>
+                    <h3>🫶 복잡성보다 지속성</h3>
                     <p>바쁜 날에도 10초면 남길 수 있어, 기록 습관이 오래갑니다.</p>
                 </article>
             </div>
 
-            <div class="cta-box fade-step">
+            <div class="cta-box">
                 <h2>💙 오늘의 문장이<br>내일의 용기가 되도록</h2>
                 <p>광고 없이 편안하게, iCloud로 안전하게. 가치를 키워주는 독서 기록 앱으로 당신만의 생각 구름을 키워보세요.</p>
                 <div class="cta-actions">
-                    <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main js-appstore-link" data-cta="value_bottom_cta">iOS/iPadOS에서 시작하기</a>
-                    <a href="MoongBook_HomePage.html" class="btn btn-ghost js-preserve-query" data-cta="value_bottom_back_home">메인 페이지로 돌아가기</a>
+                    <a href="https://apps.apple.com/kr/app/id6751841852" target="_blank" rel="noopener noreferrer" class="btn btn-main">App Store에서 시작하기</a>
+                    <a href="MoongBook_HomePage.html" class="btn btn-ghost">메인 페이지로 돌아가기</a>
                 </div>
-                <p class="platform-note">iPhone/iPad 전용 서비스이며 Android는 현재 지원하지 않습니다.</p>
             </div>
-            <div class="legal-links fade-step">
+            <div class="legal-links">
                 <a href="policy.html?tab=terms_current" target="_blank" rel="noopener noreferrer">이용약관</a>
                 <a href="policy.html?tab=privacy_current" target="_blank" rel="noopener noreferrer">개인정보처리방침</a>
                 <a href="https://www.instagram.com/cloudy._.book_official/" target="_blank" rel="noopener noreferrer">Instagram</a>
             </div>
         </section>
     </main>
-    <script>
-        const GA_MEASUREMENT_ID = "G-61J94BRN5P"; // 실제 GA4 측정 ID
-        const GA_PLACEHOLDER_ID = "G-XXXXXXXXXX";
-        const APP_STORE_BASE_URL = "https://apps.apple.com/kr/app/id6751841852";
-        const MARKETING_KEYS = ["gclid", "fbclid", "ttclid", "igshid", "wbraid", "gbraid"];
-
-        const incomingParams = new URLSearchParams(window.location.search);
-
-        function extractMarketingParams() {
-            const params = new URLSearchParams();
-
-            incomingParams.forEach((value, key) => {
-                if (key.startsWith("utm_") || MARKETING_KEYS.includes(key)) {
-                    params.set(key, value);
-                }
-            });
-
-            return params;
-        }
-
-        function applyDefaultUtm(params, ctaName) {
-            if (!params.has("utm_source")) params.set("utm_source", "website");
-            if (!params.has("utm_medium")) params.set("utm_medium", "organic");
-            if (!params.has("utm_campaign")) params.set("utm_campaign", "moong_value_page");
-            if (!params.has("utm_content") && ctaName) params.set("utm_content", ctaName);
-        }
-
-        function appendIncomingQuery(link) {
-            if (!incomingParams.toString()) return;
-
-            const url = new URL(link.getAttribute("href"), window.location.href);
-
-            incomingParams.forEach((value, key) => {
-                if (!url.searchParams.has(key)) {
-                    url.searchParams.set(key, value);
-                }
-            });
-
-            link.setAttribute("href", url.toString());
-        }
-
-        function applyAppStoreLink(link) {
-            const ctaName = link.dataset.cta || "unknown";
-            const appStoreUrl = new URL(APP_STORE_BASE_URL);
-            const marketingParams = extractMarketingParams();
-
-            applyDefaultUtm(marketingParams, ctaName);
-            marketingParams.forEach((value, key) => appStoreUrl.searchParams.set(key, value));
-            link.setAttribute("href", appStoreUrl.toString());
-        }
-
-        function initGa4() {
-            if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER_ID) {
-                return;
-            }
-
-            const gaScript = document.createElement("script");
-            gaScript.async = true;
-            gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-            document.head.appendChild(gaScript);
-
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = function gtag() { window.dataLayer.push(arguments); };
-            window.gtag("js", new Date());
-            window.gtag("config", GA_MEASUREMENT_ID, {
-                anonymize_ip: true
-            });
-        }
-
-        function trackEvent(name, params = {}) {
-            if (typeof window.gtag !== "function") return;
-            window.gtag("event", name, params);
-        }
-
-        function setupTracking() {
-            document.querySelectorAll(".js-appstore-link").forEach((link) => {
-                applyAppStoreLink(link);
-                link.addEventListener("click", () => {
-                    trackEvent("app_store_click", {
-                        page_type: "moong_value",
-                        cta_location: link.dataset.cta || "unknown"
-                    });
-                });
-            });
-
-            document.querySelectorAll(".js-preserve-query").forEach((link) => {
-                appendIncomingQuery(link);
-            });
-        }
-
-        function setupRevealObserver() {
-            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            const revealTargets = document.querySelectorAll(".fade-step");
-
-            if (reducedMotion || typeof IntersectionObserver !== "function") {
-                revealTargets.forEach((target) => target.classList.add("visible"));
-                return;
-            }
-
-            const trackedStorySteps = new Set();
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-
-                    entry.target.classList.add("visible");
-
-                    const step = entry.target.dataset.storyStep;
-                    if (step && !trackedStorySteps.has(step)) {
-                        trackEvent("value_story_view", {
-                            page_type: "moong_value",
-                            step_index: Number(step)
-                        });
-                        trackedStorySteps.add(step);
-                    }
-
-                    observer.unobserve(entry.target);
-                });
-            }, {
-                threshold: 0.16,
-                rootMargin: "0px 0px -8% 0px"
-            });
-
-            revealTargets.forEach((target) => observer.observe(target));
-        }
-
-        function setupScrollTracking() {
-            let hasTrackedScroll50 = false;
-
-            window.addEventListener("scroll", () => {
-                if (hasTrackedScroll50) return;
-
-                const doc = document.documentElement;
-                if (!doc || doc.scrollHeight === 0) return;
-
-                const scrollRatio = (window.scrollY + window.innerHeight) / doc.scrollHeight;
-                if (scrollRatio >= 0.5) {
-                    trackEvent("scroll_50", { page_type: "moong_value" });
-                    hasTrackedScroll50 = true;
-                }
-            }, { passive: true });
-        }
-
-        initGa4();
-        setupTracking();
-        setupRevealObserver();
-        setupScrollTracking();
-    </script>
 </body>
 </html>

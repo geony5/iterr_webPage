@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뽀모드림 - 집중을 관리하는 뽀모도로 타이머</title>
+    <meta name="description" content="공부, 코딩, 작업, 과제까지. 뽀모도로 타이머, 기록 히스토리, 타임랩스, 쪽잠을 iPad에서 감성적으로 관리하는 PomoDream 공식 사이트.">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --brand: #ff9502;
+            --brand-soft: #ffb54e;
+            --accent: #86dceb;
+            --accent-soft: #c8bbff;
+            --mint: #97dcc6;
+            --rose: #efabc8;
+            --bg: #050508;
+            --bg-soft: #0d0d12;
+            --bg-panel: #141418;
+            --line: rgba(255, 255, 255, 0.08);
+            --line-strong: rgba(255, 255, 255, 0.15);
+            --text-main: #f7f5f0;
+            --text-sub: #c4c3ca;
+            --text-muted: #8a8a93;
+            --radius-xl: 34px;
+            --radius-l: 26px;
+            --radius-m: 18px;
+            --shadow-soft: 0 22px 52px rgba(0, 0, 0, 0.6);
+            --shadow-deep: 0 34px 110px rgba(0, 0, 0, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            color: var(--text-main);
+            background-color: #050508; 
+            background-image:
+                radial-gradient(circle at 15% 0%, rgba(255, 149, 2, 0.12), transparent 45%),
+                radial-gradient(circle at 85% 30%, rgba(200, 187, 255, 0.08), transparent 55%),
+                radial-gradient(circle at 50% 80%, rgba(255, 181, 78, 0.05), transparent 45%),
+                linear-gradient(180deg, #0a0a0e 0%, #050508 40%, #000000 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            word-break: keep-all;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(60px);
+        }
+
+        body::before {
+            top: -20vw;
+            right: -15vw;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 149, 2, 0.10) 0%, transparent 70%);
+        }
+
+        body::after {
+            left: -20vw;
+            bottom: -15vw;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(200, 187, 255, 0.08) 0%, transparent 70%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(1140px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(8, 8, 10, 0.65);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .header-inner {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            box-shadow: 0 8px 18px rgba(255, 149, 2, 0.15);
+        }
+
+        .brand-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-copy strong {
+            font-size: 17px;
+        }
+
+        .brand-copy span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link,
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 18px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .nav-link {
+            color: var(--text-sub);
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-soft) 100%);
+            color: #1b1307;
+            box-shadow: 0 14px 30px rgba(255, 149, 2, 0.22);
+        }
+
+        .btn-ghost {
+            border: 1px solid var(--line-strong);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        .btn-dark {
+            border: 1px solid rgba(255, 149, 2, 0.22);
+            background: rgba(255, 149, 2, 0.08);
+            color: #ffd39b;
+        }
+        
+        .btn-appstore {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-appstore svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        main {
+            padding: 44px 0 100px;
+        }
+
+        section {
+            padding: 110px 0;
+        }
+
+        .hero {
+            padding-top: 46px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 44px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 149, 2, 0.12);
+            color: #ffd39b;
+            border: 1px solid rgba(255, 149, 2, 0.18);
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .hero h1,
+        .section-head h2,
+        .cta-box h2 {
+            letter-spacing: -0.04em;
+            line-height: 1.18;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 68px);
+            margin-bottom: 18px;
+        }
+
+        .hero .accent {
+            color: var(--brand);
+        }
+
+        .hero p {
+            font-size: clamp(17px, 2vw, 22px);
+            color: var(--text-sub);
+            line-height: 1.72;
+            max-width: 30ch;
+        }
+
+        .hero-callout {
+            margin-top: 26px;
+            padding: 18px 20px;
+            border-radius: 22px;
+            border: 1px solid rgba(102, 217, 239, 0.12);
+            background: linear-gradient(135deg, rgba(20, 22, 28, 0.86), rgba(12, 14, 18, 0.8));
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .hero-callout strong {
+            display: block;
+            color: var(--accent);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .hero-callout p {
+            max-width: none;
+            font-size: 16px;
+        }
+
+        .hero-meta {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .hero-actions {
+            margin-top: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-note {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .visual-shell {
+            position: relative;
+            padding: 18px;
+            border-radius: 38px;
+            background:
+                radial-gradient(circle at top left, rgba(255, 190, 134, 0.15), transparent 34%),
+                radial-gradient(circle at bottom right, rgba(200, 187, 255, 0.12), transparent 30%),
+                linear-gradient(145deg, rgba(255, 149, 2, 0.08), rgba(102, 217, 239, 0.05));
+            box-shadow: var(--shadow-deep);
+        }
+
+        .visual-card {
+            border-radius: 28px;
+            overflow: hidden;
+            background: #08080a;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .floating-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(15, 15, 18, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: var(--shadow-soft);
+            z-index: 10;
+        }
+
+        .section-head {
+            max-width: 760px;
+            margin-bottom: 34px;
+        }
+
+        .section-head.center-align {
+            text-align: center;
+            margin: 0 auto 50px auto;
+        }
+
+        .section-kicker {
+            display: inline-block;
+            margin-bottom: 14px;
+            color: var(--brand);
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .section-head h2 {
+            font-size: clamp(32px, 4.4vw, 52px);
+            margin-bottom: 14px;
+        }
+
+        .section-head p {
+            font-size: clamp(16px, 1.8vw, 19px);
+            color: var(--text-sub);
+            line-height: 1.76;
+        }
+
+        .promise-grid,
+        .fit-grid,
+        .essentials-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .promise-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .promise-card,
+        .fit-card,
+        .essential-card,
+        .review-card {
+            border: 1px solid var(--line);
+            background:
+                linear-gradient(180deg, rgba(28, 28, 34, 0.85), rgba(15, 15, 18, 0.95));
+            border-radius: var(--radius-l);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: relative;
+        }
+
+        .promise-card::before,
+        .fit-card::before,
+        .essential-card::before,
+        .review-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 18px;
+            right: 18px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0.65;
+        }
+
+        .promise-card,
+        .fit-card,
+        .essential-card {
+            padding: 28px 24px;
+        }
+
+        .promise-card strong,
+        .fit-card strong,
+        .essential-card strong {
+            display: block;
+            font-size: 22px;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        .promise-card p,
+        .fit-card p,
+        .essential-card p {
+            color: var(--text-sub);
+            font-size: 15px;
+            line-height: 1.72;
+        }
+
+        .feature-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 34px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .feature-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-row.reverse .feature-copy {
+            order: 2;
+        }
+
+        .feature-row.reverse .screen-frame {
+            order: 1;
+        }
+
+        .feature-copy h3 {
+            font-size: clamp(28px, 3.4vw, 42px);
+            line-height: 1.24;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .feature-copy p {
+            color: var(--text-sub);
+            font-size: 17px;
+            line-height: 1.76;
+        }
+
+        .feature-tags {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .screen-frame {
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: #0a0a0c;
+            box-shadow: var(--shadow-deep);
+        }
+
+        /* -----------------------------------------------------------------
+           커버플로우(Coverflow) 3D 테마 갤러리 섹션 스타일
+           ----------------------------------------------------------------- */
+        .theme-section-wrapper {
+            width: 100%;
+            overflow: hidden;
+            padding: 40px 0 80px 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 500px;
+            height: auto;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            cursor: default;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .swiper-slide-shadow-left,
+        .swiper-slide-shadow-right {
+            border-radius: 24px;
+        }
+
+        .fit-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .essentials-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 20px;
+        }
+
+        .essential-card strong {
+            font-size: 20px;
+        }
+
+        /* -----------------------------------------------------------------
+           리뷰(Social Proof) 섹션 스타일
+           ----------------------------------------------------------------- */
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            padding: 34px 28px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-stars {
+            color: var(--brand);
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .review-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 26px;
+            flex-grow: 1;
+        }
+
+        .review-author {
+            font-size: 14px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-author span {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .cta-box {
+            padding: 34px;
+            border-radius: 38px;
+            background:
+                radial-gradient(circle at top left, rgba(255, 149, 2, 0.1), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(200, 187, 255, 0.08), transparent 35%),
+                linear-gradient(135deg, rgba(24, 24, 30, 0.85) 0%, rgba(12, 12, 16, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow-deep);
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: clamp(34px, 4.4vw, 56px);
+            margin-bottom: 14px;
+        }
+
+        .cta-box p {
+            max-width: 760px;
+            margin: 0 auto;
+            color: var(--text-sub);
+            font-size: clamp(16px, 1.8vw, 20px);
+            line-height: 1.7;
+        }
+
+        .cta-actions {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .legal-links {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .legal-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid var(--line);
+        }
+
+        footer {
+            padding-top: 26px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-end;
+        }
+
+        .footer-inner strong {
+            display: block;
+            color: var(--text-main);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 1040px) {
+            .hero-grid,
+            .feature-row,
+            .fit-grid,
+            .essentials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .promise-grid, .review-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-row.reverse .feature-copy,
+            .feature-row.reverse .screen-frame {
+                order: initial;
+            }
+            
+            .swiper-slide {
+                width: 380px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                width: min(1140px, calc(100% - 20px));
+            }
+
+            main {
+                padding-top: 22px;
+                padding-bottom: 78px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .header-inner,
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 24px;
+            }
+
+            .hero-callout,
+            .promise-card,
+            .fit-card,
+            .essential-card,
+            .review-card,
+            .cta-box {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .visual-shell {
+                padding: 14px;
+            }
+
+            .hero-actions .btn,
+            .cta-actions .btn {
+                width: 100%;
+            }
+            
+            .swiper-slide {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="brand" aria-label="PomoDream 로고">
+                <img src="images/logo_pomo.png" alt="PomoDream 로고">
+                <span class="brand-copy">
+                    <strong>뽀모드림</strong>
+                    <span>집중을 관리하는 뽀모도로 타이머</span>
+                </span>
+            </a>
+            <div class="header-actions">
+                <nav class="nav-links" aria-label="페이지 바로가기">
+                    <a href="#features" class="nav-link">기능</a>
+                    <a href="#fit" class="nav-link">누구에게</a>
+                    <a href="#reviews" class="nav-link">리뷰</a>
+                </nav>
+                <a href="#" class="btn btn-main btn-appstore">
+                    <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                    App Store
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <span class="eyebrow">지금 다운로드 가능 · iPad 전용 · 완전 무료</span>
+                    <h1>집중을 관리하는<br><span class="accent">뽀모도로 타이머</span>,<br>뽀모드림</h1>
+                    <p>공부, 코딩, 작업, 과제까지. 한 번의 몰입과 짧은 회복, 그리고 남겨두고 싶은 집중의 흔적을 iPad에서 가장 단순하게 관리하세요.</p>
+                    <div class="hero-callout">
+                        <strong>한마디로 말하면?</strong>
+                        <p>집중속에 쪽잠에 들어도, 당신을 깨워드릴게요.</p>
+                    </div>
+                    <div class="hero-meta">
+                        <span class="meta-pill">뽀모도로 집중 타이머</span>
+                        <span class="meta-pill">기록 히스토리</span>
+                        <span class="meta-pill">타임랩스</span>
+                        <span class="meta-pill">쪽잠 모드</span>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-main btn-appstore">
+                            <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                            App Store에서 다운로드
+                        </a>
+                        <a href="#features" class="btn btn-ghost">기능 먼저 보기</a>
+                    </div>
+                    <p class="hero-note">지금 바로 App Store에서 PomoDream을 만나보세요.</p>
+                </div>
+                <div class="hero-visual reveal">
+                    <div class="floating-badge">광고 없이, 집중 하기</div>
+                    <div class="visual-shell">
+                        <div class="visual-card">
+                            <img src="images/pomodream/pomodoro-touch.png" alt="PomoDream 메인 타이머 소개 이미지">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="section-kicker">Why PomoDream</span>
+                    <h2>뽀모드림이 관리하는 건<br>시간 그 자체보다 집중의 흐름입니다.</h2>
+                    <p>예쁘기만 한 타이머가 아니라, 오래 열게 되는 타이머를 만들고 싶었습니다. 시작은 빨라야 하고, 기록은 남아야 하고, 너무 피곤한 날엔 짧은 쪽잠까지 다시 흐름 안으로 돌아오게 해야 하니까요.</p>
+                </div>
+                <div class="promise-grid">
+                    <article class="promise-card reveal">
+                        <strong>복잡함 없이 바로 시작</strong>
+                        <p>자주 쓰는 시간은 바로 눌러 시작하고, 더 세밀한 설정이 필요할 땐 손끝으로 바로 조절할 수 있게 만들었습니다.</p>
+                    </article>
+                    <article class="promise-card reveal">
+                        <strong>집중이 사라지지 않게</strong>
+                        <p>오늘의 세션은 기록 히스토리로 남아, 어제의 몰입이 그냥 흘러가 버리지 않도록 도와줍니다.</p>
+                    </article>
+                    <article class="promise-card reveal">
+                        <strong>회복까지 한 흐름 안에서</strong>
+                        <p>뽀모드림의 쪽잠 모드는 쉬어야 할 때는 쉬고, 다시 돌아와야 할 때는 부드럽게 깨워주는 리듬을 함께 챙깁니다.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="section-kicker">Features</span>
+                    <h2>몰입을 만들고, 남기고, 유지하는<br>뽀모드림만의 4가지 기능</h2>
+                    <p>뽀모드림은 사용자를 기능 사이로 헤매게 하기보다, 집중을 시작하고 이어가는 데 필요한 요소들만 감성적으로 정리했습니다.</p>
+                </div>
+
+                <div class="feature-row reveal">
+                    <div class="feature-copy">
+                        <h3>뽀모도로 타이머로<br>지금 해야 할 일에 바로 들어가기</h3>
+                        <p>25분, 50분, 120분처럼 자주 쓰는 시간은 빠르게 시작하고, 직접 원하는 길이로 손쉽게 조정할 수도 있습니다. 공부든 코딩이든, 시작까지 걸리는 시간을 줄이는 것이 첫 번째 집중이라고 생각했습니다. 게다가, 다크모드 완벽 지원으로, 태블릿의 발열, 배터리 걱정도 덜어두세요.</p>
+                        <div class="feature-tags">
+                            <span class="feature-tag">빠른 시작</span>
+                            <span class="feature-tag">손끝 설정</span>
+                            <span class="feature-tag">몰입 중심 UI</span>
+                        </div>
+                    </div>
+                    <div class="screen-frame">
+                        <img src="images/pomodream/touch-settings.png" alt="손끝으로 시간을 설정하는 PomoDream 화면">
+                    </div>
+                </div>
+
+                <div class="feature-row reverse reveal">
+                    <div class="feature-copy">
+                        <h3>집중 히스토리로<br>흘러간 시간이 아니라 남은 시간을 보기</h3>
+                        <p>오늘 얼마나 앉아 있었는지, 짧게 시작한 집중이 어떻게 쌓였는지 기록으로 확인할 수 있습니다. 히스토리는 단순한 숫자 정리가 아니라, “그래도 오늘 해냈다”는 감각을 다시 꺼내주는 기능입니다.</p>
+                        <div class="feature-tags">
+                            <span class="feature-tag">기록 요약</span>
+                            <span class="feature-tag">집중 분석</span>
+                            <span class="feature-tag">작은 성취 축적</span>
+                        </div>
+                    </div>
+                    <div class="screen-frame">
+                        <img src="images/pomodream/history-screen.png" alt="집중 기록 히스토리 화면">
+                    </div>
+                </div>
+
+                <div class="feature-row reveal">
+                    <div class="feature-copy">
+                        <h3>타임랩스로<br>오늘의 몰입을 눈에 보이는 장면으로 남기기</h3>
+                        <p>집중은 지나가면 보이지 않지만, 타임랩스로 남겨두면 오늘 쌓아 올린 시간이 더 선명해집니다. 공부와 작업의 순간을 단순한 기록이 아니라 나만의 장면으로 되돌아보게 합니다.</p>
+                        <div class="feature-tags">
+                            <span class="feature-tag">집중 장면 기록</span>
+                            <span class="feature-tag">시각적 회고</span>
+                            <span class="feature-tag">몰입의 흔적</span>
+                        </div>
+                    </div>
+                    <div class="screen-frame">
+                        <img src="images/pomodream/timelapse-shot.png" alt="타임랩스 촬영 기능 소개 이미지">
+                    </div>
+                </div>
+
+                <div class="feature-row reverse reveal">
+                    <div class="feature-copy">
+                        <h3>쪽잠 모드로<br>쉬어야 할 때는 쉬고 다시 돌아오기</h3>
+                        <p>오래 버티는 것만이 능사는 아니니까요. PomoDream의 쪽잠 모드는 너무 길어지지 않게 짧은 회복을 도와주고, 다음 세션으로 다시 돌아올 수 있도록 리듬을 이어줍니다.</p>
+                        <div class="feature-tags">
+                            <span class="feature-tag">짧은 회복</span>
+                            <span class="feature-tag">다시 깨우기</span>
+                            <span class="feature-tag">집중 리듬 유지</span>
+                        </div>
+                    </div>
+                    <div class="screen-frame">
+                        <img src="images/pomodream/nap-screen.png" alt="쪽잠 기능 화면">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="theme-section-wrapper">
+                <div class="container section-head center-align reveal">
+                    <span class="section-kicker">Themes</span>
+                    <h2>질리지 않게, 그러나 산만하지 않게</h2>
+                    <p>검은 화면의 단정함부터 조금 더 부드러운 톤까지. PomoDream은 화려함보다 집중에 방해되지 않는 분위기를 기준으로 다양한 테마를 준비하고 있습니다. 오래 켜둘수록 편안해야 하니까요.</p>
+                </div>
+                
+                <div class="swiper-container theme-slider reveal">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/pomodream/Ourline-orange.png" alt="오렌지 보더 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/Ourline-applemint.png" alt="애플민트 보더 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/Ourline-green.png" alt="그린 보더 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/Ourline-pink.png" alt="핑크 보더 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/Ourline-purple.png" alt="퍼플 보더 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/theme-digital.png" alt="디지털 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/theme-digital flip.png" alt="플립 시계 테마"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/theme-1.png" alt="테마 스타일 1"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/theme-2.png" alt="테마 스타일 2"></div>
+                        <div class="swiper-slide"><img src="images/pomodream/theme-3.png" alt="테마 스타일 3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fit">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="section-kicker">For You</span>
+                    <h2>공부, 코딩, 작업, 과제.<br>시간을 관리해야 하는 모든 사람에게</h2>
+                    <p>뽀모드림은 특정 한 직군보다, 오늘의 시간을 스스로 붙잡아야 하는 사람들을 위한 앱입니다. 길게 앉아야 하는 날일수록 더 단순한 도구가 필요하니까요.</p>
+                </div>
+                <div class="fit-grid">
+                    <article class="fit-card reveal">
+                        <strong>공부할 때</strong>
+                        <p>수업 사이 집중 시간을 짧고 선명하게 잘라서 반복하고 싶은 학생에게 잘 맞습니다.</p>
+                    </article>
+                    <article class="fit-card reveal">
+                        <strong>코딩할 때</strong>
+                        <p>한 문제, 한 기능, 한 디버깅 흐름에 오래 머물기 위해 시작과 회복 리듬이 필요한 사람에게 어울립니다.</p>
+                    </article>
+                    <article class="fit-card reveal">
+                        <strong>작업할 때</strong>
+                        <p>디자인, 문서 작성, 편집처럼 화면 앞에서 몰입 시간을 관리해야 하는 작업자에게 적합합니다.</p>
+                    </article>
+                    <article class="fit-card reveal">
+                        <strong>과제할 때</strong>
+                        <p>마감이 가까울수록 해야 할 일을 한 세션씩 쪼개어 끝내고 싶은 사람에게 도움이 됩니다.</p>
+                    </article>
+                </div>
+                <div class="essentials-grid">
+                    <article class="essential-card reveal">
+                        <strong>iPad 전용</strong>
+                        <p>넓은 화면 위에서 타이머와 기록, 회복 흐름을 더 편안하게 다루도록 iPad 경험에 맞춰 준비했습니다.</p>
+                    </article>
+                    <article class="essential-card reveal">
+                        <strong>완전 무료</strong>
+                        <p>현재 기준 PomoDream의 모든 기능은 별도 결제 없이 사용할 수 있도록 준비하고 있습니다.</p>
+                    </article>
+                    <article class="essential-card reveal">
+                        <strong>무광고</strong>
+                        <p>집중 중간에 흐름이 깨지지 않도록 앱 내 광고 없이, 더 조용한 사용 경험을 목표로 합니다.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <div class="container">
+                <div class="section-head reveal">
+                    <span class="section-kicker">Reviews</span>
+                    <h2>유저들이 증명하는 확실한 몰입</h2>
+                    <p>뽀모드림과 함께 오늘 하루의 집중을 기록하고 있는 유저들의 이야기입니다.</p>
+                </div>
+                <div class="review-grid">
+                    <article class="review-card reveal">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"군더더기 없는 완벽한 뽀모도로 앱입니다. 화면 디자인이 너무 예뻐서 아이패드에 켜두기만 해도 데스크테리어가 완성되는 기분이에요."</p>
+                        <div class="review-author">
+                            <span>App Store 리뷰</span> 개발자 지망생
+                        </div>
+                    </article>
+                    <article class="review-card reveal">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"쪽잠 기능 만드신 분 상 드려야 합니다. 밤샘 과제할 때 15분만 자고 싶어도 불안해서 못 잤는데, 이제는 마음 편히 눈 붙이고 다시 몰입할 수 있어요."</p>
+                        <div class="review-author">
+                            <span>App Store 리뷰</span> 3학년 컴공생
+                        </div>
+                    </article>
+                    <article class="review-card reveal">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"타임랩스로 제가 하루종일 책상에 앉아있던 모습을 남기니까 확실히 성취감이 다릅니다. 다크모드라서 배터리 소모도 적고 눈도 편안하네요."</p>
+                        <div class="review-author">
+                            <span>App Store 리뷰</span> 취준생 K
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="cta-box reveal">
+                    <h2>오늘의 25분을<br>조금 더 가볍게 시작하세요.</h2>
+                    <p>뽀모드림은 단순히 시간을 재는 앱이 아니라, 당신의 집중 관리를 돕는 iPad 타이머입니다. 지금 바로 App Store에서 만나보세요.</p>
+                    <div class="cta-actions">
+                        <a href="#" class="btn btn-main btn-appstore">
+                            <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                            App Store에서 다운로드
+                        </a>
+                    </div>
+                    
+                    <div class="legal-links">
+                        <a href="policy-pomodream/index.html?tab=terms_current">이용약관</a>
+                        <a href="policy-pomodream/index.html?tab=privacy_current">개인정보처리방침</a>
+                        <a href="policy-pomodream/index.html?tab=purchase_current">무료 제공 정책</a>
+                    </div>
+                </div>
+                <footer>
+                    <div class="footer-inner">
+                        <div>
+                            <strong>뽀모드림</strong>
+                            <p>집중을 관리하는 뽀모도로 타이머</p>
+                        </div>
+                        <div>
+                            <p>ITERR · support@iterr.store</p>
+                            <p>© 2026 PomoDream. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("active");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: "0px 0px -48px 0px"
+        });
+
+        document.querySelectorAll(".reveal").forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.theme-slider', {
+                effect: 'coverflow',        
+                grabCursor: true,           
+                centeredSlides: true,       
+                slidesPerView: 'auto',      
+                loop: true,                 
+                autoplay: {                 
+                    delay: 2500,            
+                    disableOnInteraction: false, 
+                },
+                coverflowEffect: {
+                    rotate: 25,             
+                    stretch: 0,             
+                    depth: 250,             
+                    modifier: 1,            
+                    slideShadows: true,     
+                },
+            });
+        });
+    </script>
+</body>
+</html>
